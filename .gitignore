@@ -1,2 +1,9 @@
 **/.ipynb_checkpoints
 **/logs
+**/notes
+**/data
+**/.terraform
+.terraform.lock.hcl
+*.tfplan
+*.tfstate
+*.tfstate.backup
