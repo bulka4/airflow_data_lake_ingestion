@@ -10,14 +10,16 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '95d4b2af-ab6d-46f9-8d8c-6bef3332e9a2'
+  dockerRegistryServiceConnection: '466bfb77-9a8c-4bf5-b940-402b953ea6cc'
   imageRepository: 'airflow'
-  containerRegistry: 'wrtsuregistry.azurecr.io'
+  containerRegistry: 'eqvvjregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/airflow_app/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  #vmImageName: 'ubuntu-latest'
+  pool:
+    name: data_engineering_apps
 
 stages:
 - stage: Build
@@ -25,8 +27,8 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool:
-      vmImage: $(vmImageName)
+    #pool:
+    #  vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
