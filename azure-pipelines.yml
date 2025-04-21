@@ -18,8 +18,8 @@ variables:
 
   # Agent VM image name
   #vmImageName: 'ubuntu-latest'
-  pool:
-    name: data_engineering_apps
+pool:
+  name: data_engineering_apps
 
 stages:
 - stage: Build
