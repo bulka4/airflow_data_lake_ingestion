@@ -9,15 +9,15 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '466bfb77-9a8c-4bf5-b940-402b953ea6cc'
+  # Container registry service connection
+  dockerRegistryServiceConnection: '596ca89d-b35d-4b12-95bc-0cb0facbfa16'
   imageRepository: 'airflow'
-  containerRegistry: 'eqvvjregistry.azurecr.io'
+  containerRegistry: 'dvtnhregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/airflow_app/Dockerfile'
   tag: '$(Build.BuildId)'
+  - group: ACR-SP-credentials
 
-  # Agent VM image name
-  #vmImageName: 'ubuntu-latest'
+# Agent Pool
 pool:
   name: data_engineering_apps
 
@@ -26,9 +26,7 @@ stages:
   displayName: Build and push stage
   jobs:
   - job: Build
-    displayName: Build
-    #pool:
-    #  vmImage: $(vmImageName)
+    displayName: Build and push an image to container registry
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
@@ -39,3 +37,24 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+  - job: PullImage
+    steps:
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'MyAzureServiceConnection'  # Set this up in DevOps > Project Settings > Service Connections
+          scriptType: bash
+          scriptLocation: inlineScript
+          # arguments SP_ID and SP_PASSWORD for the inline script will be taken from the Azure Pipelines Library.
+          # Here we need to provide acr_name (container registry name) and image_name.
+          inlineScript: |
+            acr_name = "dvtnhregistry"
+            image_name = "$containerRegistry/$imageRepository:$tag"
+
+            # Login to Docker using service principal credentials
+            docker login $acr_name.azurecr.io -u $SP_ID -p $SP_PASSWORD
+
+            # Pull the Docker image
+            docker pull $image_name
+
+            # Run the Docker container
+            docker run -d $image_name
