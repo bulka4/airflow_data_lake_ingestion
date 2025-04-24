@@ -11,11 +11,11 @@ resources:
 variables:
   # Container registry service connection
   - name: dockerRegistryServiceConnection
-    value: '7665b299-1d4a-4910-91f8-c9acc09d34b9'
+    value: '0a4c32b5-342b-480e-92af-a9464125eaf0'
   - name: imageRepository
     value: 'airflow'
   - name: containerRegistry
-    value: 'pefmiregistry.azurecr.io'
+    value: 'dataEngineeringApps.azurecr.io'
   - name: dockerfilePath
     value: '$(Build.SourcesDirectory)/airflow_app/Dockerfile'
   - name: tag
@@ -52,7 +52,7 @@ stages:
           # arguments SP_ID and SP_PASSWORD for the inline script will be taken from the Azure Pipelines Library.
           # Here we need to provide acr_name (container registry name) and image_name.
           inlineScript: |
-            acr_name = "dvtnhregistry"
+            acr_name = "dataEngineeringApps"
             image_name = "$containerRegistry/$imageRepository:$tag"
 
             # Login to Docker using service principal credentials
