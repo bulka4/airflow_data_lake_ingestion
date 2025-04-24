@@ -10,11 +10,16 @@ resources:
 
 variables:
   # Container registry service connection
-  dockerRegistryServiceConnection: '7665b299-1d4a-4910-91f8-c9acc09d34b9'
-  imageRepository: 'airflow'
-  containerRegistry: 'pefmiregistry.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/airflow_app/Dockerfile'
-  tag: '$(Build.BuildId)'
+  - name: dockerRegistryServiceConnection
+    value: '7665b299-1d4a-4910-91f8-c9acc09d34b9'
+  - name: imageRepository
+    value: 'airflow'
+  - name: containerRegistry
+    value: 'pefmiregistry.azurecr.io'
+  - name: dockerfilePath
+    value: '$(Build.SourcesDirectory)/airflow_app/Dockerfile'
+  - name: tag
+    value: '$(Build.BuildId)'
   - group: ACR-SP-credentials
 
 # Agent Pool
