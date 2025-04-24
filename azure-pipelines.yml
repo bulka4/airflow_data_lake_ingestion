@@ -10,9 +10,9 @@ resources:
 
 variables:
   # Container registry service connection
-  dockerRegistryServiceConnection: '596ca89d-b35d-4b12-95bc-0cb0facbfa16'
+  dockerRegistryServiceConnection: '7665b299-1d4a-4910-91f8-c9acc09d34b9'
   imageRepository: 'airflow'
-  containerRegistry: 'dvtnhregistry.azurecr.io'
+  containerRegistry: 'pefmiregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/airflow_app/Dockerfile'
   tag: '$(Build.BuildId)'
   - group: ACR-SP-credentials

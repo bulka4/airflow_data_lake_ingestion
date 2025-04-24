@@ -11,10 +11,6 @@ param(
     ,[string]$role
 )
 
-write-output $registry_name
-write-output $principal_name
-write-output $role
-
 # Modify for your environment.
 # ACR_NAME: The name of your Azure Container Registry
 # SERVICE_PRINCIPAL_NAME: Must be unique within your AD tenant
