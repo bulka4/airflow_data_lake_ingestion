@@ -42,10 +42,13 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+          
+- stage: Deploy
+  jobs:
   - job: PullImage
     steps:
       # arguments SP_ID and SP_PASSWORD for the inline script will be taken from the Azure Pipelines Library.
-      # Here we need to provide acr_name (container registry name) and image_name.
+      # Here we need to provide the acr_name (container registry name).
       - script: |
             acr_name="dataEngineeringApps"
             image_name="$(containerRegistry)/$(imageRepository):$(tag)"
@@ -54,7 +57,7 @@ stages:
             docker login $acr_name.azurecr.io -u $(SP_ID) -p $(SP_PASSWORD)
 
             # Pull the Docker image
-            docker pull $(image_name)
+            docker pull $image_name
 
             # Run the Docker container
-            docker run -d $(image_name)
+            docker run -d $image_name
