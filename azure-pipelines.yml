@@ -42,7 +42,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-          
+
 - stage: Deploy
   jobs:
   - job: PullImage
@@ -60,4 +60,4 @@ stages:
             docker pull $image_name
 
             # Run the Docker container
-            docker run -d $image_name
+            docker run -d -p 8080:8080 $image_name
