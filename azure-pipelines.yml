@@ -53,11 +53,16 @@ stages:
             acr_name="dataEngineeringApps"
             image_name="$(containerRegistry)/$(imageRepository):$(tag)"
 
-            # Login to Docker using service principal credentials
+            # Set the Azure Pipeline variables as environment variables. They will be used in the docker-compose.yaml file.
+            export CONTAINER_REGISTRY=$(containerRegistry)
+            export IMAGE_REPOSITORY=$(imageRepository)
+            export IMAGE_TAG=$(tag)
+
+            echo "Login to Docker using service principal credentials"
             docker login $acr_name.azurecr.io -u $(SP_ID) -p $(SP_PASSWORD)
 
-            # Pull the Docker image
+            echo "Pulling the Docker image"
             docker pull $image_name
 
-            # Run the Docker container
+            echo "Running the Docker container"
             docker compose -f airflow_app/docker-compose.yaml up -d
