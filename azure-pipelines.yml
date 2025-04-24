@@ -60,4 +60,4 @@ stages:
             docker pull $image_name
 
             # Run the Docker container
-            docker run -d -p 8080:8080 $image_name
+            docker run -d -p 8080:8080 $image_name airflow webserver --port 8080 --host 0.0.0.0
