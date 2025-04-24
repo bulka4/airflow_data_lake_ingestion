@@ -59,5 +59,10 @@ stages:
             # Pull the Docker image
             docker pull $image_name
 
+            # initialize the database and mount a volume.
+            # docker run --rm -v airflow_home:/root/airflow $image_name airflow db init
+
             # Run the Docker container
-            docker run -d -p 8080:8080 $image_name airflow webserver --port 8080 --host 0.0.0.0
+            # docker run -d -p 8080:8080 $image_name airflow webserver --port 8080 --host 0.0.0.0
+
+            docker compose up -d
