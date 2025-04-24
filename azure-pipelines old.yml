@@ -44,17 +44,22 @@ stages:
           $(tag)
   - job: PullImage
     steps:
-      # arguments SP_ID and SP_PASSWORD for the inline script will be taken from the Azure Pipelines Library.
-      # Here we need to provide acr_name (container registry name) and image_name.
-      - script: |
-            acr_name="dataEngineeringApps"
-            image_name="$(containerRegistry)/$(imageRepository):$(tag)"
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'MyAzureServiceConnection'  # Set this up in DevOps > Project Settings > Service Connections
+          scriptType: bash
+          scriptLocation: inlineScript
+          # arguments SP_ID and SP_PASSWORD for the inline script will be taken from the Azure Pipelines Library.
+          # Here we need to provide acr_name (container registry name) and image_name.
+          inlineScript: |
+            acr_name = "dataEngineeringApps"
+            image_name = "$containerRegistry/$imageRepository:$tag"
 
             # Login to Docker using service principal credentials
-            docker login $acr_name.azurecr.io -u $(SP_ID) -p $(SP_PASSWORD)
+            docker login $acr_name.azurecr.io -u $SP_ID -p $SP_PASSWORD
 
             # Pull the Docker image
-            docker pull $(image_name)
+            docker pull $image_name
 
             # Run the Docker container
-            docker run -d $(image_name)
+            docker run -d $image_name
