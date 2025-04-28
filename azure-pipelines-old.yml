@@ -42,24 +42,27 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+- stage: Deploy
+  jobs:
   - job: PullImage
     steps:
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: 'MyAzureServiceConnection'  # Set this up in DevOps > Project Settings > Service Connections
-          scriptType: bash
-          scriptLocation: inlineScript
-          # arguments SP_ID and SP_PASSWORD for the inline script will be taken from the Azure Pipelines Library.
-          # Here we need to provide acr_name (container registry name) and image_name.
-          inlineScript: |
-            acr_name = "dataEngineeringApps"
-            image_name = "$containerRegistry/$imageRepository:$tag"
+      # arguments SP_ID and SP_PASSWORD for the inline script will be taken from the Azure Pipelines Library.
+      # Here we need to provide the acr_name (container registry name).
+      - script: |
+            acr_name="dataEngineeringApps"
+            image_name="$(containerRegistry)/$(imageRepository):$(tag)"
 
-            # Login to Docker using service principal credentials
-            docker login $acr_name.azurecr.io -u $SP_ID -p $SP_PASSWORD
+            # Set the Azure Pipeline variables as environment variables. They will be used in the docker-compose.yaml file.
+            export CONTAINER_REGISTRY=$(containerRegistry)
+            export IMAGE_REPOSITORY=$(imageRepository)
+            export IMAGE_TAG=$(tag)
 
-            # Pull the Docker image
+            echo "Login to Docker using service principal credentials"
+            docker login $acr_name.azurecr.io -u $(SP_ID) -p $(SP_PASSWORD)
+
+            echo "Pulling the Docker image"
             docker pull $image_name
 
-            # Run the Docker container
-            docker run -d $image_name
+            echo "Running the Docker container"
+            docker compose -f airflow_app/docker-compose.yaml up -d
