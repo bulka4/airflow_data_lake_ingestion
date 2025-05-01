@@ -19,7 +19,7 @@ stages:
         command: buildAndPush
         repository: airflow
         dockerfile: $(Build.SourcesDirectory)/Dockerfile
-        containerRegistry: 5afa6f6f-b5c2-4745-a1d2-2c5b77167584
+        containerRegistry: f5793cca-c4be-4f01-a005-4a6be114a4a9
         tags: $(Build.BuildId)
 - stage: Deploy
   jobs:
