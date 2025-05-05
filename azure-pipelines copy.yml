@@ -1,12 +1,16 @@
+# define from which branch in repo we will be deploying code
 trigger:
 - main
 resources:
 - repo: self
+# define which Agent pool will be used
 pool:
   name: data_engineering_apps
+# define which Variable group we will use
 variables:
 - group: ACR-SP-credentials
 stages:
+# The first stage is building a Docker image and pushing it to the Azure Container Registry (ACR)
 - stage: Build
   displayName: Build and push stage
   jobs:
@@ -18,13 +22,15 @@ stages:
       inputs:
         command: buildAndPush
         repository: airflow
-        dockerfile: $(Build.SourcesDirectory)/Dockerfile
-        containerRegistry: de78b4e0-9827-47f8-8089-2eed116f9c9a
+        dockerfile: $(Build.SourcesDirectory)/Dockerfile # path to the Dockerfile in repository.
+        containerRegistry: 8e3142f8-1e0a-4768-a042-43c807f9fbd0 # ID of the Service connection in DevOps linked to the ACR.
         tags: $(Build.BuildId)
+# stage for pulling a Docker image on VM and running it.
 - stage: Deploy
   jobs:
   - job: PullImage
     steps:
+    # Bash script which will be executed on the VM.
     - script: |
         image_name=dataEngineeringApps.azurecr.io/airflow:$(Build.BuildId)
 
