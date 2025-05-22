@@ -1,10 +1,7 @@
 **/.ipynb_checkpoints
+**/__pycache__
 **/logs
 **/notes
 **/data
-**/.terraform
-.terraform.lock.hcl
-*.tfplan
-*.tfstate
-*.tfstate.backup
 **/venv
+*.env
