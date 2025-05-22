@@ -4,4 +4,4 @@
 **/notes
 **/data
 **/venv
-*.env
+dags/project_1/.env
