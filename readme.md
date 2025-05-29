@@ -3,6 +3,9 @@ This is the Airflow app containerized using Docker. It can be ran on a local com
 
 In this repository we are using the Delta Lake framework for storing data as delta tables in Azure Data Lake. We are using the deltalake library ([delta-io.github.io/delta-rs](https://delta-io.github.io/delta-rs/)). Don't confuse it with the delta library ([docs.delta.io/0.4.0/api/python](https://docs.delta.io/0.4.0/api/python/index.html#), [docs.delta.io/latest](https://docs.delta.io/latest/index.html)). Delta library requires to use Spark engine, deltalake doesn't.
 
+# Running the app
+In order to start the Ariflow on our local computer we need to run the 'docker compose up' command.
+
 # DAGs
 There is one dag (dag/project_1/dag_1.py) which is ingesting data from the MS SQL db into the Azure Data Lake. Data is saved in the Data Lake straight away as a delta table using the deltalake library. We are performing here both full truncate and load, and incremental load. 
 

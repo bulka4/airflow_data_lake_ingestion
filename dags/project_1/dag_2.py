@@ -30,8 +30,6 @@ with DAG(
 ) as dag:
     x = task1()
     task2(x)
-    
-    task1() >> task2(x)
 
 
 
