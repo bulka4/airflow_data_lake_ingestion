@@ -23,13 +23,7 @@ Before we run this app we need to:
 - **Set up firewall rules in the SQL database** - in order to connect to the created SQL database we need to add our IP address to the firewall rules. We can do that in Azure platform if we go to the MS SQL server resource > security > networking. There we can add the IP address of our currently used computer to the firewall rules.
 - **Ingest data into the SQL db** - We need to ingest data into the SQL db which we will be later on ingesting into the Data Lake using Airflow. We can do that using the sql_ingestions_v1.py script from the data_lake_ingestion repository which is using the SQLAlchemy library.
 - **Set up container in the Data Lake** - We need to create a container and directory in the Data Lake into which we will be ingesting data. For that we can use the data_lake_setup.py script from the data_lake_ingestion repository which is using Azure SDK.
-- **create the .env file** - That file should be located in the dags/project_1 folder together with the dag_1.py script. That file will contain confidential variables which are accessed in the dag_1.py script using the os.getenv() function. They are needed for connecting to the SQL db and Data Lake. Those are:
-    - ACCOUNT_NAME - Name of the Storage Account (Data Lake)
-    - ACCESS_KEY - Data Lake access key. When we are creating a Data Lake using the data_lake module from the azure_terraform repository, the access key is saved in the Terraform output 'primary_access_key'.
-    - SQL_SERVER_NAME - Name of the SQL server from which we will be ingesting data.
-    - SQL_DB_NAME - Name of the db in the SQL server from which we will be ingesting data (it can be any database on that server).
-    - SQL_USERNAME - username used for logging into the SQL server.
-    - SQL_PASSWORD - password used for logging into the SQL server.
+- **create the .env file** - That file should be located in the dags/project_1 folder together with the dag_1.py script. It should look like the .env-draft file in the same location. It is described in that draft file what values to provide. That file will contain confidential variables which are accessed in the dag_1.py script using the os.getenv() function. They are needed for connecting to the SQL db and Data Lake.
 
 # App notes
 In the below subsections there are explained important notes helping with understanding this code.
