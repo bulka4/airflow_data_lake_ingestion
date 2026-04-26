@@ -52,7 +52,7 @@ x-airflow-common:
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   # image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.6.0}
   image: ${CONTAINER_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}
-  build: .
+  # build: .
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
